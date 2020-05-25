@@ -6,7 +6,3 @@ btn.addEventListener('click', (event) => {
 	window.open("../dash/index.html", "_self");
 	//Search bar algorithm
 })
-
-function searchJobs() {
-
-}
