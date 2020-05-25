@@ -42,7 +42,7 @@
       <div></div>
       <div></div>
       <div></div>
-      <a class="btn btn-primary" href="../listings/listing.html" id ="tolisting">Job Listings</a>
+      <a class="btn btn-primary" href="../listings/listing.html" id ="tolisting">Browse Listings</a>
       <a class="btn btn-primary" href="../post/post.html#">Post a Job</a>
       <a class="btn btn-primary" href="../auth/login.html">Sign In</a>
     </div>
@@ -52,18 +52,21 @@
   <section class="features-icons bg-light text-center">
     <div class="container">
         <form>
-            <div class="form-row">
-              <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="text" class="form-control form-control-lg" placeholder="Username" id ="user">
-              </div>
-              <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="text" class="form-control form-control-lg" placeholder="Password" id ="pass">
-              </div>
-            </div>
-            <div class="col-12 col-md-3">
-                <button type="submit" class="btn btn-block btn-lg btn-primary" id="login">Login</button>
-              </div>
-          </form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="user" aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="pass">
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary" id = "login">Submit</button>
+      </form>
     </div>
   </section>
   

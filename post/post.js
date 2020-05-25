@@ -1,3 +1,4 @@
+const form = document.getElementById('jobposting');
 const btn = document.getElementById('post');
 const titleIn = document.getElementById('title');
 const empIn = document.getElementById('emp');
@@ -22,6 +23,7 @@ btn.addEventListener('click', (event) => {
 			posted
 		};
 		storeJobs(job);
+		form.reset();
 		//listjobs();
 	}
 })
@@ -46,6 +48,13 @@ function storeJobs(job) {
 		})
 		.then(function() {
 		    console.log("Document successfully written!");
+		    const formGrp = document.createElement('div');
+		    formGrp.className = 'form-group';
+		    const success = document.createElement('div');
+		    success.className = 'alert alert-success';
+		    success.textContent = "Job successfully posted!";
+		    formGrp.appendChild(success);
+		    form.append(formGrp);
 		})
 		.catch(function(error) {
 		    console.error("Error writing document: ", error);
