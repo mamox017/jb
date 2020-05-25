@@ -29,9 +29,13 @@
         "url": "https://github.com/BlackrockDigital/startbootstrap-landing-page.git"
     },
     "dependencies": {
+        "@auth0/auth0-spa-js": "^1.8.1",
         "@fortawesome/fontawesome-free": "5.10.2",
+        "@okta/okta-signin-widget": "^4.0.2",
         "bootstrap": "4.3.1",
-        "jquery": "3.4.1",
+        "express": "^4.17.1",
+        "express-openid-connect": "^1.0.2",
+        "jquery": "^3.5.1",
         "simple-line-icons": "^2.4.1"
     },
     "devDependencies": {
