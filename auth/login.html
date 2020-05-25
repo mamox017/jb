@@ -25,9 +25,7 @@
   <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-firestore.js"></script>
 </head>
 
-
-<body>
-
+<header>
   <!-- Navigation -->
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
@@ -47,10 +45,16 @@
       <a class="btn btn-primary" href="../auth/login.html">Sign In</a>
     </div>
   </nav>
+</header>
 
+<header class="masthead">
   <!-- Icons Grid -->
-  <section class="features-icons bg-light text-center">
     <div class="container">
+      <div class="card">
+      <div class="card-header">
+        Sign in
+      </div>
+      <div class="card-body">
         <form>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
@@ -61,16 +65,18 @@
           <label for="exampleInputPassword1">Password</label>
           <input type="password" class="form-control" id="pass">
         </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        <div class="form-group">
+          <a href="/register">
+          <small id="emailHelp" class="form-text text-muted">Don't have an account? Register Here</small>
+          </a>
         </div>
         <button type="submit" class="btn btn-primary" id = "login">Submit</button>
       </form>
+      </div>
     </div>
-  </section>
+    </div>
   
-</body>
+</header>
 
 <!-- Footer -->
   <footer class="footer bg-light">
