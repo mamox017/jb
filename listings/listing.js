@@ -4,7 +4,7 @@ const mast = document.getElementById('mast');
 const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
 const searchBar = document.getElementById('search');
-const searchQuery = document.getElementById('query');
+var searchQuery = document.getElementById('query');
 
 const all = document.getElementById('All');
 const arts = document.getElementById('Arts');
@@ -118,8 +118,22 @@ function listjobs(query, startAft=null) {
 	}*/
 }
 
+searchQuery.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+  	event.preventDefault();
+  	console.log("ENTER");
+    // Cancel the default action, if needed
+    
+    // Trigger the button element with a click
+    console.log("CLICKING");
+    searchBar.click();
+  }
+});
+
 searchBar.addEventListener('click', (event) => {
 	query = searchQuery.value;
+	console.log(query);
 	listjobs(query);
 	searchForm.reset();
 })
