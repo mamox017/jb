@@ -127,7 +127,7 @@ searchBar.addEventListener('click', (event) => {
 all.addEventListener('click', (event) => {
 	console.log("All");
 	herotext.textContent = "All Jobs";
-	mast.className = "masthead2 text-white text-center";
+	mast.className = "masthead10 text-white text-center";
 	query = null;
 	listjobs(query);
 })
