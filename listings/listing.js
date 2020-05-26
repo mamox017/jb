@@ -2,6 +2,7 @@ const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
 const searchBar = document.getElementById('search');
 const searchQuery = document.getElementById('query');
+var query;
 
 function displayOnSite(doc) {
 	const div = document.createElement('div');
@@ -50,20 +51,45 @@ function displayOnSite(doc) {
 
 }
 
-function listjobs(query=null) {
+function listjobs(query) {
+	jobs.innerHTML = "";
 	console.log(query);
+	var collection = db.collection('jobs');
 	if(query == null) {
-		db.collection('jobs').where("category", "==", "Tech").orderBy("posted").limit(10).get().then((snapshot) => {
-				snapshot.docs.reverse().forEach(doc => {
-					displayOnSite(doc);
-				})
+		collection = db.collection('jobs').orderBy("posted");
+		collection.get().then((snapshot) => {
+		snapshot.docs.reverse().forEach(doc => {
+			displayOnSite(doc);
 		})
+	})
 	} else {
-		db.collection('jobs').where("title", "==", query).orderBy("posted").limit(10).get().then((snapshot) => {
-				snapshot.docs.reverse().forEach(doc => {
-					console.log(doc.data().title);
-					displayOnSite(doc);
-				})
+		collection = db.collection('jobs').where("title", "==", query);
+		descSearch = db.collection('jobs').where("description", "==", query);
+		employerSearch = db.collection('jobs').where("employer", "==", query);
+		categorySearch = db.collection('jobs').where("category", "==", query);
+		
+		collection.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+		
+		descSearch.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+		
+		employerSearch.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+		
+		categorySearch.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
 		})
 	}
 }
@@ -75,4 +101,4 @@ searchBar.addEventListener('click', (event) => {
 })
 
 
-listjobs();
+listjobs(query);
