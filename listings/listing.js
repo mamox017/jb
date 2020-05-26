@@ -1,8 +1,9 @@
 const jobs = document.getElementById('jobcontainer');
+const searchForm = document.getElementById('searchform');
+const searchBar = document.getElementById('search');
+const searchQuery = document.getElementById('query');
 
 function displayOnSite(doc) {
-	console.log(doc.data().category);
-
 	const div = document.createElement('div');
 	div.className = 'card';
 
@@ -49,13 +50,29 @@ function displayOnSite(doc) {
 
 }
 
-function listjobs() {
-	db.collection('jobs').orderBy("posted").get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-	})
+function listjobs(query=null) {
+	console.log(query);
+	if(query == null) {
+		db.collection('jobs').where("category", "==", "Tech").orderBy("posted").limit(10).get().then((snapshot) => {
+				snapshot.docs.reverse().forEach(doc => {
+					displayOnSite(doc);
+				})
+		})
+	} else {
+		db.collection('jobs').where("title", "==", query).orderBy("posted").limit(10).get().then((snapshot) => {
+				snapshot.docs.reverse().forEach(doc => {
+					console.log(doc.data().title);
+					displayOnSite(doc);
+				})
+		})
+	}
 }
+
+searchBar.addEventListener('click', (event) => {
+	query = searchQuery.value;
+	listjobs(query);
+	searchForm.reset();
+})
 
 
 listjobs();
