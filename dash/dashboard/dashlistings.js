@@ -53,6 +53,7 @@ function displayOnSite(doc) {
 	const appliedOptions = document.createElement('div');
 	appliedOptions.className = 'btn-group';
 
+	//if applied, replace with check mark?
 	const appliedYes = document.createElement('a');
 	appliedYes.className = 'btn btn-outline-success';
 	appliedYes.textContent = "Mark Applied";

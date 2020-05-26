@@ -30,10 +30,10 @@
       <img class="navbar-brand" src="../../img/icon.png"  width="175" height="45">
     </a></div>
       <div class="list-group list-group-flush">
-        <a href="profile.html" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="../profile/profile.html" class="list-group-item list-group-item-action bg-light">Profile</a>
         <a href="../index.html" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="../dashboard/dashlistings.html" class="list-group-item list-group-item-action bg-light">Listings</a>
-        <a href="../applied/applied.html" class="list-group-item list-group-item-action bg-light">Applied</a>
+        <a href="applied.html" class="list-group-item list-group-item-action bg-light">Applied</a>
         <a href="../post/dashpost.html" class="list-group-item list-group-item-action bg-light">Post Job</a>
       </div>
     </div>
@@ -43,9 +43,11 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
@@ -56,20 +58,50 @@
       </nav>
 
       <div class="container-fluid">
-        <div class="container">
-        <div class="testimonial-item mx-auto mb-5 mb-lg-0 text-center">
-            <div class="card" style="width: 60rem;">
-              <div class="card-header">
-                <img class="img-fluid rounded-circle mb-3" src="../../img/default.png" alt="">
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Name: FirstName LastName</li>
-                <li class="list-group-item">Email: email@example.com</li>
-                <li class="list-group-item">Number of Applications: 100</li>
+        <div class="btn group"></div>
+            <div class="container">
+              <form id = "searchform">
+                    <div class="form-row">
+                      <div class="col-12 col-md-9 mb-2 mb-md-0">
+                        <input type="text" class="form-control form-control-lg" placeholder="Job Title, Keywords, or Company" id ="query">
+                      </div>
+                      <div class="col-12 col-md-3">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id = "search">Search Jobs</button>
+                      </div>
+                    </div>
+              </form>
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="All">All</a>
+                </li>       
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Arts">Arts</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Business">Business</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Education">Education</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Engineering">Engineering</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Medical">Medical</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Service Industry">Service Industry</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Tech">Tech</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Other">Other</a>
+                </li>
               </ul>
+                  <div class="container" id = "jobcontainer">
+                  </div>
             </div>
-          </div>
-        </div>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -92,7 +124,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
   </script>
-  <script src="dashlistings.js"></script>
+  <script ></script>
 
 
 </body>

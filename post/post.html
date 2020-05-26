@@ -56,7 +56,7 @@
             <input type="text" class="form-control" id="title">
           </div>
           <div class="form-group">
-            <labe">Employer</label>
+            <label>Employer</label>
             <input type="text" class="form-control" id="emp">
           </div>
           <div class="form-group">
@@ -86,7 +86,7 @@
           <button type="submit" class="btn btn-primary" id="post">Post Job</button>
         </form>
       </div>
-    </div>
+      </div>
     </div>
   </header>
   
@@ -138,7 +138,6 @@
       </div>
     </div>
   </footer>
-  <script src="post.js"></script>
   <script>
     // Firebase configuration
     var firebaseConfig = {
@@ -155,5 +154,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
   </script>
+  <script src="dashpost.js"></script>
 
 </html>
