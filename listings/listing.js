@@ -1,3 +1,5 @@
+const hero = document.getElementById('herotext');
+
 const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
 const searchBar = document.getElementById('search');
@@ -61,7 +63,7 @@ function displayOnSite(doc) {
 
 }
 
-function listjobs(query) {
+function listjobs(query, startAft=null) {
 	jobs.innerHTML = "";
 	console.log(query);
 	var collection = db.collection('jobs');
@@ -102,6 +104,17 @@ function listjobs(query) {
 			})
 		})
 	}
+
+	//failed search
+	/*if(jobs.innerHTML == "") {
+		const formGrp = document.createElement('div');
+	    formGrp.className = 'form-group';
+	    const success = document.createElement('div');
+	    success.className = 'alert alert-danger';
+	    success.textContent = "No results match your search";
+	    formGrp.appendChild(success);
+		jobs.appendChild(formGrp);
+	}*/
 }
 
 searchBar.addEventListener('click', (event) => {
@@ -118,50 +131,73 @@ all.addEventListener('click', (event) => {
 
 arts.addEventListener('click', (event) => {
 	console.log("Arts");
+	herotext.textContent = "Arts";
 	query = "Arts";
 	listjobs(query);
 })
 
 business.addEventListener('click', (event) => {
 	console.log("Business");
+	herotext.textContent = "Business";
 	query = "Business";
 	listjobs(query);
 })
 
 education.addEventListener('click', (event) => {
 	console.log("Education");
+	herotext.textContent = "Education";
 	query = "Education";
 	listjobs(query);
 })
 
 engineering.addEventListener('click', (event) => {
 	console.log("Engineering");
+	herotext.textContent = "Engineering";
 	query = "Engineering";
 	listjobs(query);
 })
 
 medical.addEventListener('click', (event) => {
 	console.log("Medical");
+	herotext.textContent = "Medical";
 	query = "Medical";
 	listjobs(query);
 })
 
 serviceIndustry.addEventListener('click', (event) => {
 	console.log("Service Industry");
+	herotext.textContent = "Service Industry";
 	query = "Service Industry";
 	listjobs(query);
 })
 
 tech.addEventListener('click', (event) => {
 	console.log("Tech");
+	herotext.textContent = "Tech";
 	query = "Tech";
 	listjobs(query);
 })
 
 other.addEventListener('click', (event) => {
 	console.log("Other");
+	herotext.textContent = "Other Jobs";
 	query = "Other";
 	listjobs(query);
 })
+
+function paginate(collection) {
+	return collection.get().then(function (documentSnapshots) {
+	  // Get the last visible document
+	  var lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+	  console.log("last", lastVisible);
+
+	  // Construct a new query starting at this document,
+	  // get the next 25 cities.
+	  var next = db.collection("cities")
+	          .orderBy("population")
+	          .startAfter(lastVisible)
+	          .limit(25);
+	});
+}
 
 listjobs(query);
