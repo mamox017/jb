@@ -64,60 +64,6 @@ function displayOnSite(doc) {
 
 }
 
-function listjobs(query, startAft=null) {
-	jobs.innerHTML = "";
-	console.log(query);
-	var collection = db.collection('jobs');
-	if(query == null) {
-		collection = db.collection('jobs').orderBy("posted");
-		collection.get().then((snapshot) => {
-		snapshot.docs.reverse().forEach(doc => {
-			displayOnSite(doc);
-		})
-	})
-	} else {
-		collection = db.collection('jobs').where("title", "==", query);
-		descSearch = db.collection('jobs').where("description", "==", query);
-		employerSearch = db.collection('jobs').where("employer", "==", query);
-		categorySearch = db.collection('jobs').where("category", "==", query);
-		
-		collection.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		descSearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		employerSearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		categorySearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-	}
-
-	//failed search
-	/*if(jobs.innerHTML == "") {
-		const formGrp = document.createElement('div');
-	    formGrp.className = 'form-group';
-	    const success = document.createElement('div');
-	    success.className = 'alert alert-danger';
-	    success.textContent = "No results match your search";
-	    formGrp.appendChild(success);
-		jobs.appendChild(formGrp);
-	}*/
-}
-
 searchQuery.addEventListener("keyup", function(event) {
   // Number 13 is the "Enter" key on the keyboard
   if (event.keyCode === 13) {
@@ -210,6 +156,61 @@ other.addEventListener('click', (event) => {
 	query = "Other";
 	listjobs(query);
 })
+
+
+function listjobs(query, startAft=null) {
+	jobs.innerHTML = "";
+	console.log(query);
+	var collection = db.collection('jobs');
+	if(query == null) {
+		collection = db.collection('jobs').orderBy("posted").limit(5);
+		collection.get().then((snapshot) => {
+		snapshot.docs.reverse().forEach(doc => {
+			displayOnSite(doc);
+		})
+	})
+	} else {
+		collection = db.collection('jobs').where("title", "==", query);
+		descSearch = db.collection('jobs').where("description", "==", query);
+		employerSearch = db.collection('jobs').where("employer", "==", query);
+		categorySearch = db.collection('jobs').where("category", "==", query);
+		
+		collection.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+		
+		descSearch.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+		
+		employerSearch.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+		
+		categorySearch.get().then((snapshot) => {
+			snapshot.docs.reverse().forEach(doc => {
+				displayOnSite(doc);
+			})
+		})
+	}
+
+	//failed search
+	/*if(jobs.innerHTML == "") {
+		const formGrp = document.createElement('div');
+	    formGrp.className = 'form-group';
+	    const success = document.createElement('div');
+	    success.className = 'alert alert-danger';
+	    success.textContent = "No results match your search";
+	    formGrp.appendChild(success);
+		jobs.appendChild(formGrp);
+	}*/
+}
 
 function paginate(collection) {
 	return collection.get().then(function (documentSnapshots) {
