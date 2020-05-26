@@ -125,6 +125,7 @@ searchBar.addEventListener('click', (event) => {
 
 all.addEventListener('click', (event) => {
 	console.log("All");
+	herotext.textContent = "All Jobs";
 	query = null;
 	listjobs(query);
 })
