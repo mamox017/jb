@@ -124,6 +124,7 @@ searchBar.addEventListener('click', (event) => {
 	searchForm.reset();
 })
 
+//normalize pixels
 all.addEventListener('click', (event) => {
 	console.log("All");
 	herotext.textContent = "All Jobs";
@@ -135,7 +136,7 @@ all.addEventListener('click', (event) => {
 arts.addEventListener('click', (event) => {
 	console.log("Arts");
 	herotext.textContent = "Arts";
-	mast.className = "masthead text-white text-center";
+	mast.className = "masthead2 text-white text-center";
 	query = "Arts";
 	listjobs(query);
 })
