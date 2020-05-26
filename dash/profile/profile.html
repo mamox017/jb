@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Job Listings</title>
+  <link rel="icon" href="../../img/favicon.png">
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../css/simple-sidebar.css" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase.js"></script>
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading"><a href="/index.html">
+      <img class="navbar-brand" src="../../img/icon.png"  width="175" height="45">
+    </a></div>
+      <div class="list-group list-group-flush">
+        <a href="../profile/profile.html" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="../index.html" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="../dashboard/dashlistings.html" class="list-group-item list-group-item-action bg-light">Listings</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Applied</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../index.html">Log out<span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <div class="testimonial-item mx-auto mb-5 mb-lg-0 text-center">
+            <div class="card" style="width: 120rem;">
+              <div class="card-header">
+                <img class="img-fluid rounded-circle mb-3" src="../../img/default.png" alt="">
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Name: FirstName LastName</li>
+                <li class="list-group-item">Email: email@example.com</li>
+                <li class="list-group-item">Number of Applications: 100</li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+  <script>
+    // Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAD-b2jwQiFzcxX0Rayiw_rfBwGAPfJcpU",
+      authDomain: "mootii-14ce1.firebaseapp.com",
+      databaseURL: "https://mootii-14ce1.firebaseio.com",
+      projectId: "mootii-14ce1",
+      storageBucket: "mootii-14ce1.appspot.com",
+      messagingSenderId: "657860768501",
+      appId: "1:657860768501:web:3d4bb73ece4991adfa0bbc",
+      measurementId: "G-X9NXSVYJFF"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+  <script src="dashlistings.js"></script>
+
+
+</body>
+
+</html>
+
+
+<!--
+  
+    -->

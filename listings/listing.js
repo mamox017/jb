@@ -47,6 +47,7 @@ function displayOnSite(doc) {
 	const applyButton = document.createElement('a');
 	applyButton.className = 'btn btn-primary';
 	applyButton.href = doc.data().link;
+	applyButton.target = "_blank";
 	applyButton.textContent = "Apply on Company Website";
 	
 	const divider = document.createElement('div');
