@@ -1,7 +1,7 @@
 # jb
 Bootstrap version of The Job Board
 
-#todo
+# todo
 paginate in main listing page and login listing page
 
 //categories
