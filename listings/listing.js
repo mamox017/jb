@@ -2,6 +2,16 @@ const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
 const searchBar = document.getElementById('search');
 const searchQuery = document.getElementById('query');
+
+const all = document.getElementById('All');
+const arts = document.getElementById('Arts');
+const business = document.getElementById('Business');
+const education = document.getElementById('Education');
+const engineering = document.getElementById('Engineering');
+const medical = document.getElementById('Medical');
+const serviceIndustry = document.getElementById('Service Industry');
+const tech = document.getElementById('Tech');
+const other = document.getElementById('Other');
 var query;
 
 function displayOnSite(doc) {
@@ -100,5 +110,58 @@ searchBar.addEventListener('click', (event) => {
 	searchForm.reset();
 })
 
+all.addEventListener('click', (event) => {
+	console.log("All");
+	query = null;
+	listjobs(query);
+})
+
+arts.addEventListener('click', (event) => {
+	console.log("Arts");
+	query = "Arts";
+	listjobs(query);
+})
+
+business.addEventListener('click', (event) => {
+	console.log("Business");
+	query = "Business";
+	listjobs(query);
+})
+
+education.addEventListener('click', (event) => {
+	console.log("Education");
+	query = "Education";
+	listjobs(query);
+})
+
+engineering.addEventListener('click', (event) => {
+	console.log("Engineering");
+	query = "Engineering";
+	listjobs(query);
+})
+
+medical.addEventListener('click', (event) => {
+	console.log("Medical");
+	query = "Medical";
+	listjobs(query);
+})
+
+serviceIndustry.addEventListener('click', (event) => {
+	console.log("Service Industry");
+	query = "Service Industry";
+	listjobs(query);
+})
+
+tech.addEventListener('click', (event) => {
+	console.log("Tech");
+	query = "Tech";
+	listjobs(query);
+})
+
+other.addEventListener('click', (event) => {
+	console.log("Other");
+	query = "Other";
+	listjobs(query);
+})
 
 listjobs(query);
