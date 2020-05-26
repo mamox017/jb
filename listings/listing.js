@@ -1,4 +1,5 @@
 const hero = document.getElementById('herotext');
+const mast = document.getElementById('mast');
 
 const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
@@ -126,6 +127,7 @@ searchBar.addEventListener('click', (event) => {
 all.addEventListener('click', (event) => {
 	console.log("All");
 	herotext.textContent = "All Jobs";
+	mast.className = "masthead2 text-white text-center";
 	query = null;
 	listjobs(query);
 })
@@ -133,6 +135,7 @@ all.addEventListener('click', (event) => {
 arts.addEventListener('click', (event) => {
 	console.log("Arts");
 	herotext.textContent = "Arts";
+	mast.className = "masthead text-white text-center";
 	query = "Arts";
 	listjobs(query);
 })
@@ -140,6 +143,7 @@ arts.addEventListener('click', (event) => {
 business.addEventListener('click', (event) => {
 	console.log("Business");
 	herotext.textContent = "Business";
+	mast.className = "masthead3 text-white text-center";
 	query = "Business";
 	listjobs(query);
 })
@@ -147,6 +151,7 @@ business.addEventListener('click', (event) => {
 education.addEventListener('click', (event) => {
 	console.log("Education");
 	herotext.textContent = "Education";
+	mast.className = "masthead4 text-white text-center";
 	query = "Education";
 	listjobs(query);
 })
@@ -154,6 +159,7 @@ education.addEventListener('click', (event) => {
 engineering.addEventListener('click', (event) => {
 	console.log("Engineering");
 	herotext.textContent = "Engineering";
+	mast.className = "masthead5 text-white text-center";
 	query = "Engineering";
 	listjobs(query);
 })
@@ -161,6 +167,7 @@ engineering.addEventListener('click', (event) => {
 medical.addEventListener('click', (event) => {
 	console.log("Medical");
 	herotext.textContent = "Medical";
+	mast.className = "masthead6 text-white text-center";
 	query = "Medical";
 	listjobs(query);
 })
@@ -168,6 +175,7 @@ medical.addEventListener('click', (event) => {
 serviceIndustry.addEventListener('click', (event) => {
 	console.log("Service Industry");
 	herotext.textContent = "Service Industry";
+	mast.className = "masthead8 text-white text-center";
 	query = "Service Industry";
 	listjobs(query);
 })
@@ -175,6 +183,7 @@ serviceIndustry.addEventListener('click', (event) => {
 tech.addEventListener('click', (event) => {
 	console.log("Tech");
 	herotext.textContent = "Tech";
+	mast.className = "masthead7 text-white text-center";
 	query = "Tech";
 	listjobs(query);
 })
@@ -182,6 +191,7 @@ tech.addEventListener('click', (event) => {
 other.addEventListener('click', (event) => {
 	console.log("Other");
 	herotext.textContent = "Other Jobs";
+	mast.className = "masthead9 text-white text-center";
 	query = "Other";
 	listjobs(query);
 })
