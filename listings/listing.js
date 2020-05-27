@@ -19,6 +19,8 @@ const tech = document.getElementById('Tech');
 const other = document.getElementById('Other');
 var query;
 
+const categories = ["Arts", "Business", "Education", "Engineering", "Medical", "Service Industry", "Tech", "Other"];
+
 var pageNo = 0;
 var limit = 5;
 var firstdoc;

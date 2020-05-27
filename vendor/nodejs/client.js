@@ -43,7 +43,7 @@ tolistings.addEventListener('click', (event) => {
 
 topost.addEventListener('click', (event) => {
 	if(signInLogOutBtn.textContent == "Sign In") {
-		window.location.replace("listings/listing.html");
+		window.location.replace("post/post.html");
 	} else {
 		window.location.replace("dash/post/dashpost.html");
 	}
