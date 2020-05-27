@@ -2,6 +2,9 @@ const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
 const searchBar = document.getElementById('search');
 var searchQuery = document.getElementById('query');
+const nextQuery = document.getElementById('next');
+const prevQuery = document.getElementById('prev');
+
 const logOutBtn = document.getElementById('logOutBtn');
 
 const all = document.getElementById('All');
@@ -14,6 +17,11 @@ const serviceIndustry = document.getElementById('Service Industry');
 const tech = document.getElementById('Tech');
 const other = document.getElementById('Other');
 var query;
+
+var pageNo = 0;
+var limit = 5;
+var firstdoc;
+var lastdoc;
 
 var mainApp = {};
 
@@ -178,16 +186,41 @@ other.addEventListener('click', (event) => {
 	listjobs(query);
 })
 
-function listjobs(query, startAft=null) {
+function listjobs(query, startAft=null, endBefore=null) {
 	jobs.innerHTML = "";
 	console.log(query);
 	var collection = db.collection('jobs');
+	i = 0;
+	if(firstdoc && lastdoc) {
+		console.log("firstdoc: " + firstdoc.data().title);
+		console.log("lastdoc: " + lastdoc.data().title);
+	}
 	if(query == null) {
-		collection = db.collection('jobs').orderBy("posted").limit(5);
+		if(startAft == null && endBefore == null) {
+			firstPage = true;
+			console.log("first page!");
+			collection = db.collection('jobs').orderBy("posted").limit(limit);
+		} else if (startAft != null) {
+			console.log("next page!");
+			collection = nextPage();
+		} else if (endBefore != null) {
+			console.log("prev page!");
+			collection = prevPage();
+		}
 		collection.get().then((snapshot) => {
 		snapshot.docs.reverse().forEach(doc => {
+			if(i == 0) {
+				firstdoc = doc;
+			}
 			displayOnSite(doc);
+			lastdoc = doc;
+			i++;
 		})
+		if (i < 5) {
+			nextQuery.className = 'btn btn-light disabled';
+		} else if (nextQuery.className == 'btn btn-light disabled') {
+			nextQuery.className = 'btn btn-light';
+		}
 	})
 	} else {
 		collection = db.collection('jobs').where("title", "==", query);
@@ -220,5 +253,30 @@ function listjobs(query, startAft=null) {
 		})
 	}
 }
+
+function nextPage() {
+	return db.collection('jobs').orderBy('posted').startAfter(firstdoc).limit(limit);
+}
+
+function prevPage() {
+	return db.collection('jobs').orderBy('posted').endBefore(lastdoc).limitToLast(limit);
+}
+
+prevQuery.addEventListener('click', (event) => {
+	console.log("PREV QUERY" + firstdoc.data().title);
+	listjobs(query, null, firstdoc);
+	pageNo--;
+	if(pageNo <= 0) {
+		prevQuery.className = 'btn btn-light disabled';
+	}
+})
+
+nextQuery.addEventListener('click', (event) => {
+	listjobs(query, lastdoc, null);
+	if (prevQuery.className == 'btn btn-light disabled') {
+		prevQuery.className = 'btn btn-light'
+	}
+	pageNo++;
+})
 
 listjobs(query);
