@@ -11,7 +11,11 @@ var mainApp = {};
 	  if (user) {
 	  	disName.textContent = "Display Name: " + user.displayName;
 	  	disEmail.textContent = "Email: " + user.email;
-	  	disPhone.textContent = "Phone Number: " + user.phoneNumber;
+	  	if(user.phoneNumber == null) {
+	  		disPhone.textContent = "Phone number: Not set";
+	  	} else {
+	  		disPhone.textContent = "Phone Number: " + user.phoneNumber;
+	  	}
 	    uid = user.uid;
 	  } else {
 	  	console.log("no user here...");
