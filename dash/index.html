@@ -50,14 +50,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="../../index.html">Log out<span class="sr-only">(current)</span></a>
+              <button class = "btn btn-light" id = "logOutBtn">Log out<span class="sr-only">(current)</span></button>
             </li>
           </ul>
         </div>
       </nav>
 
       <div class="container-fluid">
-        <h1 class="mt-4">Hello user!</h1>
+        <h1 class="mt-4" id="welcome"></h1>
         <p>Welcome to your dashboard.<br><br>New jobs are being posted frequently, so keep an eye out
           for opportunities<br><br><h2>Menu Options</h2>
           <br><h5>Profile</h5> - Your account details. <br>
@@ -72,5 +72,8 @@
   </div>
 
 </body>
+
+<script src="../auth/firebase.js"></script>
+<script src="index.js"></script>
 
 </html>

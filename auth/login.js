@@ -18,6 +18,7 @@ btn.addEventListener('click', (event) => {
 	      // User successfully signed in.
 	      // Return type determines whether we continue the redirect automatically
 	      // or whether we leave that to developer to handle.
+	      console.log("Logging in!");
 	      return true;
 	    },
 	    uiShown: function() {

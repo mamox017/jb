@@ -42,9 +42,9 @@
     	<img class="navbar-brand" src="img/icon.png"  width="175" height="45">
 	  </a>
       <div class="btn-group" role="group" aria-label="Basic example">
-        <a class="btn btn-light" href="listings/listing.html" id ="tolisting">Browse Listings</a>
-        <a class="btn btn-light" href="post/post.html">Post a Job</a>
-        <a class="btn btn-light" href="auth/login.html">Sign In</a>
+        <a class="btn btn-light" id="tolisting">Browse Listings</a>
+        <a class="btn btn-light" id="topost">Post a Job</a>
+        <a class="btn btn-light" id="signInLogOutBtn"></a>
       </div>
     </div>
   </nav>
@@ -90,10 +90,6 @@
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form>
             <div class="form-row">
-              <!--<div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="text" class="form-control form-control-lg" placeholder="Job Title, Keywords, or Company" id ="query">
-              </div>
-              <button type="submit" class="btn btn-block btn-lg btn-primary" id="search" name="search">Search Now</button>-->
               <button type="button" class="btn btn-outline-secondary btn-lg btn-block" id="search">Look at Jobs</button>
             </div>
           </form>
@@ -168,7 +164,6 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/nodejs/client.js"></script>
   <script>
     // Firebase configuration
     var firebaseConfig = {
@@ -185,8 +180,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
   </script>
+  <script src="auth/firebase.js"></script>
+  <script src="vendor/nodejs/client.js"></script>
 </body>
-
-
-
 </html>

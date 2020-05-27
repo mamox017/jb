@@ -5,6 +5,34 @@ const empIn = document.getElementById('emp');
 const descIn = document.getElementById('desc');
 const linkIn = document.getElementById('link');
 var e = document.getElementById("dropdown");
+const logOutBtn = document.getElementById('logOutBtn');
+
+var mainApp = {};
+
+(function(){
+	var firebase = app_firebase;
+	user = firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+	    uid = user.uid;
+	  } else {
+	  	console.log("no user here...");
+	  	window.location.replace("../../auth/login.html");
+	  }
+	  function logOut(){
+		firebase.auth().signOut();
+		console.log("signing out..");
+		window.location.replace("../../index.html");
+	  }
+ 
+	  mainApp.logout = logOut;
+
+	});
+})()
+
+logOutBtn.addEventListener('click', (event) => {
+	console.log("logging out!");
+	mainApp.logout();
+})
 
 btn.addEventListener('click', (event) => {
 	event.preventDefault();

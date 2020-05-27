@@ -2,6 +2,7 @@ const jobs = document.getElementById('jobcontainer');
 const searchForm = document.getElementById('searchform');
 const searchBar = document.getElementById('search');
 var searchQuery = document.getElementById('query');
+const logOutBtn = document.getElementById('logOutBtn');
 
 const all = document.getElementById('All');
 const arts = document.getElementById('Arts');
@@ -13,6 +14,33 @@ const serviceIndustry = document.getElementById('Service Industry');
 const tech = document.getElementById('Tech');
 const other = document.getElementById('Other');
 var query;
+
+var mainApp = {};
+
+(function(){
+	var firebase = app_firebase;
+	user = firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+	    uid = user.uid;
+	  } else {
+	  	console.log("no user here...");
+	  	window.location.replace("../../auth/login.html");
+	  }
+	  function logOut(){
+		firebase.auth().signOut();
+		console.log("signing out..");
+		window.location.replace("../../index.html");
+	  }
+ 
+	  mainApp.logout = logOut;
+	});
+})()
+
+logOutBtn.addEventListener('click', (event) => {
+	console.log("logging out!");
+	mainApp.logout();
+})
+
 
 function displayOnSite(doc) {
 	const div = document.createElement('div');
