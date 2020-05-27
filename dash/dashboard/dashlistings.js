@@ -201,7 +201,7 @@ function listjobs(query, startAft=null, endBefore=null) {
 		if(startAft == null && endBefore == null) {
 			firstPage = true;
 			console.log("first page!");
-			collection = db.collection('jobs').orderBy("posted").limit(limit);
+			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
 		} else if (startAft != null) {
 			console.log("next page!");
 			collection = nextPage();
