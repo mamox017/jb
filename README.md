@@ -1,20 +1,31 @@
-# jb
-Bootstrap version of The Job Board
+# The Job Board
+The Job Board is made primarily with the Bootstrap framework as well as JavaScript.  It uses the Firebase Firestore technology in order to store information about jobs and users.  The Job Board also has authentication and authorization which is implemented through Firebase's authentication library.
+
+# Release
+The job board is a functioning website that is deployed at the following link:
+https://thejobboard.now.sh
+
+# Site Images
+
+## Landing
+
+## Job Listings
+
+## Posting Jobs
+
+## Login
+
+## Profile
+
+## LoginApplied
+
+## Applied
+
+
+#
 
 # todo
-paginate in main listing page and login listing page
-
-//categories
-
-search bar/querying fix
-
-pull applied jobs
-	- tracker
-	- mark if your application was declined or an offer
-	- maybe categories?
-	- if you click on a job maybe it pops up in a box on the page in an overlay type way
-
-pull profile details for profile.html
-
-deal with active logins & logging out correctly
-	- make sure you can go to home and back to dashboard some how without logging back in if not logged out
+- tweak pagination further
+- tweak search bar/querying algorithm
+- track application status
+- let profile details be editable
