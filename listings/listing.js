@@ -173,11 +173,15 @@ function listjobs(query, startAft=null, endBefore=null) {
 	console.log(query);
 	var collection = db.collection('jobs');
 	i = 0;
+	if(firstdoc && lastdoc) {
+		console.log("firstdoc: " + firstdoc.data().title);
+		console.log("lastdoc: " + lastdoc.data().title);
+	}
 	if(query == null) {
 		if(startAft == null && endBefore == null) {
 			firstPage = true;
 			console.log("first page!");
-			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
+			collection = db.collection('jobs').orderBy("posted").limit(limit);
 		} else if (startAft != null) {
 			console.log("next page!");
 			collection = nextPage();
