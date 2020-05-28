@@ -67,6 +67,10 @@ function displayOnSite(doc) {
 	divChildHeader.className = 'card-title';
 	divChildHeader.textContent = "Company: " + doc.data().employer;
 
+	const divChildLoc = document.createElement('p');
+	divChildLoc.className = 'card-title';
+	divChildLoc.textContent = "Location: " + doc.data().city + ", " + doc.data().state;
+
 	const divChildText = document.createElement('p');
 	divChildText.className = 'card-text';
 	divChildText.textContent = doc.data().description;
@@ -101,6 +105,7 @@ function displayOnSite(doc) {
 	appliedNo.textContent = "Mark Not Appleid";*/
 
 	divChild.appendChild(divChildHeader);
+	divChild.appendChild(divChildLoc);
 	divChild.appendChild(divChildText);
 	divChild.appendChild(divChildCategory);
 	divChild.appendChild(divChildDate);

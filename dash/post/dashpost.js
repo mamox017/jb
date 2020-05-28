@@ -2,6 +2,8 @@ const form = document.getElementById('jobposting');
 const btn = document.getElementById('post');
 const titleIn = document.getElementById('title');
 const empIn = document.getElementById('emp');
+const cityIn = document.getElementById('city');
+const stateIn = document.getElementById('state');
 const descIn = document.getElementById('desc');
 const linkIn = document.getElementById('link');
 var e = document.getElementById("dropdown");
@@ -40,7 +42,9 @@ btn.addEventListener('click', (event) => {
 	const title = titleIn.value;
 	const description = descIn.value;
 	const link = linkIn.value;
-	const category = e.options[e.selectedIndex].value;;
+	const category = e.options[e.selectedIndex].value;
+	const city = cityIn.value;
+	const state = stateIn.value;
 	const posted = Date.now();
 
 	if (employer.trim() && title.trim() && link.trim()){
@@ -50,6 +54,8 @@ btn.addEventListener('click', (event) => {
 			description,
 			link,
 			category,
+			city,
+			state,
 			posted
 		};
 		storeJobs(job);
@@ -98,6 +104,8 @@ function storeJobs(job) {
 		    description: job.description,
 		    link: job.link,
 		    category: job.category,
+		    city: job.city,
+		    state: job.state,
 		    posted: job.posted
 		})
 		.then(function() {
