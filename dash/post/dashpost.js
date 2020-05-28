@@ -11,6 +11,7 @@ const logOutBtn = document.getElementById('logOutBtn');
 
 var mainApp = {};
 
+
 (function(){
 	var firebase = app_firebase;
 	user = firebase.auth().onAuthStateChanged(function(user) {

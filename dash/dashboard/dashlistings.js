@@ -26,12 +26,13 @@ var firstdoc;
 var lastdoc;
 
 var mainApp = {};
+var currUser;
 
 (function(){
 	var firebase = app_firebase;
 	user = firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
-	    uid = user.uid;
+	    currUser = user;
 	  } else {
 	  	console.log("no user here...");
 	  	window.location.replace("../../auth/login.html");
@@ -96,9 +97,35 @@ function displayOnSite(doc) {
 	appliedOptions.className = 'btn-group';
 
 	//if applied, replace with check mark?
-	const appliedYes = document.createElement('a');
+	const appliedYes = document.createElement('button');
 	appliedYes.className = 'btn btn-outline-success';
+	appliedYes.onclick = (function () {
+		console.log("writing to applied");
+		db.collection('userdata').doc('jL7xOKpLcOOknd6MUhsn').collection(currUser.uid).add({
+			jobs: doc.data().employer,
+			title: doc.data().title
+		})
+		appliedYes.className = 'btn btn-success disabled';
+		appliedYes.textContent = "Added to Applied List";
+		appliedYes.onclick = (function () {
+			console.log("disabled");
+		})
+	});
 	appliedYes.textContent = "Mark Applied";
+	if(db.collection('userdata').doc('jL7xOKpLcOOknd6MUhsn').collection(currUser.uid).get().then((snapshot) => {
+		snapshot.docs.reverse().forEach(otherdoc => {
+			console.log(otherdoc.data().title);
+			if(otherdoc.data().title == doc.data().title && otherdoc.data().jobs == doc.data().employer) {
+				console.log("found a match!");
+				appliedYes.textContent = "Applied";
+				appliedYes.onclick = (function () {
+					console.log("disabled");
+				})
+				applyButton.textContent = "Apply Again";
+				appliedYes.className = 'btn btn-success disabled';
+			}
+		})
+	}))
 	//appliedYes.onclick = mark();
 	/*const appliedNo = document.createElement('a');
 	appliedNo.className = 'btn btn-light';
@@ -116,7 +143,6 @@ function displayOnSite(doc) {
 	div.appendChild(divChild);
 	jobs.appendChild(div);
 	jobs.appendChild(divider);
-
 }
 
 searchQuery.addEventListener("keyup", function(event) {
