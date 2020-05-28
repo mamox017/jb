@@ -120,21 +120,18 @@
       <div class="row">
         <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
           <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="#">About</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Contact</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
-            </li>
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">
+              About
+            </button>
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal2">
+              Contact
+            </button>
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal3">
+              Terms of Use
+            </button>
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal4">
+              Privacy Policy
+            </button>
           </ul>
           <p class="text-muted small mb-4 mb-lg-0">&copy; The Job Board 2020. All Rights Reserved.<br>linkedin.com/in/mootii</p>
         </div>
@@ -181,4 +178,92 @@
   <script src="auth/firebase.js"></script>
   <script src="vendor/nodejs/client.js"></script>
 </body>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">About The Job Board</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        The Job Board is a website written in the HTML Bootstrap framework along with JavaScript.  It utilizes the Firebase Firestore
+        database technology in order to keep track of data about job listings and other relevant information.  Firebase authentication
+        is used in order to store user login credentials and manage users on the website.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Contact</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You can contact the owner of The Job Board at:<br>
+        - <b>Email:</b> mamox017@umn.edu<br>
+        - <b>LinkedIn:</b> linkedin.com/in/mootii
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Terms of Use</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        The Terms of Use can be found at:<br>
+        https://github.com/mamox017/termsofuse.txt
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Privacy Policy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        The Job Board only collects the following information of users:<br>
+        - First and Last Name<br>
+        - Email<br>
+        - Job Applications<br>
+        Other contact information may be stored in the system if a user decides to store more information in their profile.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </html>
