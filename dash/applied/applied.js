@@ -25,15 +25,7 @@ var currUser;
 	});
 })()
 
-function parseDocThenDisplay(doc) {
-	var eachJob = doc.data().jobs.split(",");
-	for(i = 0; i < eachJob.length; i++) {
-		var details = doc.data().jobs.split("*");
-		displayOnSite(details[0], details[1]);
-	}
-}
-
-function displayOnSite(company, title) {
+function displayOnSite(company, title, docid) {
 
 	const div = document.createElement('div');
 	div.className = 'card';
@@ -41,6 +33,16 @@ function displayOnSite(company, title) {
 	const header = document.createElement('h5');
 	header.className = 'card-header';
 	header.textContent = "Position: " + company;
+
+	const xButton = document.createElement('button');
+	xButton.className = 'close';
+	xButton.textContent = 'x';
+	xButton.onclick = (function () {
+		db.collection('userdata').doc('jL7xOKpLcOOknd6MUhsn').collection(currUser.uid).doc(docid).delete().then(() => {
+			listjobs();
+		});
+		console.log("DELETED!");
+	});
 
 	const divChild = document.createElement('div');
 	divChild.className = 'card-body';
@@ -57,6 +59,7 @@ function displayOnSite(company, title) {
 	appliedYes.className = 'btn btn-success disabled';
 	appliedYes.textContent = "Applied ✔";
 
+	divChild.appendChild(xButton);
 	divChild.appendChild(divChildHeader);
 	divChild.appendChild(appliedYes);
 	div.appendChild(header);
@@ -68,10 +71,9 @@ function displayOnSite(company, title) {
 
 function listjobs() {
 	jobs.innerHTML = "";
-	console.log("userid: " + currUser.uid);
 	db.collection('userdata').doc('jL7xOKpLcOOknd6MUhsn').collection(currUser.uid).get().then((snapshot) => {
 		snapshot.docs.reverse().forEach(doc => {
-			displayOnSite(doc.data().title, doc.data().jobs);
+			displayOnSite(doc.data().title, doc.data().jobs, doc.id);
 		})
 	});
 }
