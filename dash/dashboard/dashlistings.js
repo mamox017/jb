@@ -143,18 +143,11 @@ function displayOnSite(doc) {
 	jobs.appendChild(divider);
 }
 
-searchQuery.addEventListener("keyup", function(event) {
-  // Number 13 is the "Enter" key on the keyboard
-  if (event.keyCode === 13) {
-  	event.preventDefault();
-  	console.log("ENTER");
-    // Cancel the default action, if needed
-    
-    // Trigger the button element with a click
-    console.log("CLICKING");
-    searchBar.click();
-  }
-});
+searchForm.addEventListener('keyup', (event) => {
+	if(event.keyCode == 13) {
+		searchBar.click();
+	}
+})
 
 searchBar.addEventListener('click', (event) => {
 	query = searchQuery.value;

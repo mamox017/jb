@@ -56,6 +56,6 @@ This is the applied tab.  Users applied jobs are saved here.
 
 # todo
 - tweak pagination further
-- tweak search bar/querying algorithm
-- track application status
 - let profile details be editable
+- readd logged in menu toggle for mobile
+- let profile image url be added, update profile abilities
