@@ -114,9 +114,7 @@ function displayOnSite(doc) {
 	appliedYes.textContent = "Mark Applied";
 	if(db.collection('userdata').doc('jL7xOKpLcOOknd6MUhsn').collection(currUser.uid).get().then((snapshot) => {
 		snapshot.docs.reverse().forEach(otherdoc => {
-			console.log(otherdoc.data().title);
 			if(otherdoc.data().title == doc.data().title && otherdoc.data().jobs == doc.data().employer) {
-				console.log("found a match!");
 				appliedYes.textContent = "Applied";
 				appliedYes.onclick = (function () {
 					console.log("disabled");
@@ -165,140 +163,132 @@ searchBar.addEventListener('click', (event) => {
 	searchForm.reset();
 })
 
+//normalize pixels
 all.addEventListener('click', (event) => {
-	console.log("All");
 	query = null;
 	listjobs(query);
 })
 
 arts.addEventListener('click', (event) => {
-	console.log("Arts");
 	query = "Arts";
-	listjobs(query);
+	categorySearch(query);
 })
 
 business.addEventListener('click', (event) => {
-	console.log("Business");
 	query = "Business";
-	listjobs(query);
+	categorySearch(query);
 })
 
 education.addEventListener('click', (event) => {
-	console.log("Education");
 	query = "Education";
-	listjobs(query);
+	categorySearch(query);
 })
 
 engineering.addEventListener('click', (event) => {
-	console.log("Engineering");
 	query = "Engineering";
-	listjobs(query);
+	categorySearch(query);
 })
 
 medical.addEventListener('click', (event) => {
-	console.log("Medical");
 	query = "Medical";
-	listjobs(query);
+	categorySearch(query);
 })
 
 serviceIndustry.addEventListener('click', (event) => {
-	console.log("Service Industry");
 	query = "Service Industry";
-	listjobs(query);
+	categorySearch(query);
 })
 
 tech.addEventListener('click', (event) => {
-	console.log("Tech");
 	query = "Tech";
-	listjobs(query);
+	categorySearch(query);
 })
 
 other.addEventListener('click', (event) => {
-	console.log("Other");
 	query = "Other";
-	listjobs(query);
+	categorySearch(query);
 })
 
-function listjobs(query, startAft=null, endBefore=null) {
+function categorySearch(category) {
 	jobs.innerHTML = "";
-	console.log(query);
+	categoryCollection = db.collection('jobs').where("category", "==", category);
+	categoryCollection.get().then((snapshot) => {
+		snapshot.docs.reverse().forEach(doc => {
+			displayOnSite(doc);
+		})
+	})
+	nextQuery.className = 'btn btn-light disabled';
+	prevQuery.className = 'btn btn-light disabled';
+}
+
+function listjobs(query, startAft=null, endBefore=null) {
 	var collection = db.collection('jobs');
-	i = 0;
-	if(firstdoc && lastdoc) {
-		console.log("firstdoc: " + firstdoc.data().title);
-		console.log("lastdoc: " + lastdoc.data().title);
-	}
+	firstInSnapshot = true;
 	if(query == null) {
 		if(startAft == null && endBefore == null) {
-			firstPage = true;
-			console.log("first page!");
-			collection = db.collection('jobs').orderBy("posted").limit(limit);
+			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
 		} else if (startAft != null) {
-			console.log("next page!");
 			collection = nextPage();
 		} else if (endBefore != null) {
-			console.log("prev page!");
 			collection = prevPage();
 		}
 		collection.get().then((snapshot) => {
-		snapshot.docs.reverse().forEach(doc => {
-			if(i == 0) {
-				firstdoc = doc;
+			if(snapshot.size == 0) {
+				if (pageNo == 0) {
+					prevQuery.className = 'btn btn-light disabled';
+				} else {
+					console.log(snapshot.size);
+					const endoflist = document.createElement('small');
+					endoflist.className = 'text-center';
+					endoflist.textContent = "No more jobs to display";
+					jobs.appendChild(endoflist);
+				}
+			} else {
+				jobs.innerHTML = "";
+				snapshot.docs.reverse().forEach(doc => {
+					if(firstInSnapshot) {
+						firstdoc = doc;
+						firstInSnapshot = false;
+					}
+					lastdoc = doc;
+					displayOnSite(doc);
+				})
 			}
-			displayOnSite(doc);
-			lastdoc = doc;
-			i++;
+			if (snapshot.size < 5 && startAft != null) {
+				nextQuery.className = 'btn btn-light disabled';
+			} else if (nextQuery.className == 'btn btn-light disabled') {
+				nextQuery.className = 'btn btn-light';
+			}
 		})
-		if (i < 5) {
-			nextQuery.className = 'btn btn-light disabled';
-		} else if (nextQuery.className == 'btn btn-light disabled') {
-			nextQuery.className = 'btn btn-light';
-		}
-	})
 	} else {
-		collection = db.collection('jobs').where("title", "==", query);
-		descSearch = db.collection('jobs').where("description", "==", query);
-		employerSearch = db.collection('jobs').where("employer", "==", query);
-		categorySearch = db.collection('jobs').where("category", "==", query);
-		
-		collection.get().then((snapshot) => {
+		jobs.innerHTML = "";
+		bagOfWords = db.collection('jobs').orderBy("posted");
+		bagOfWords.get().then((snapshot) => {
+			console.log(snapshot.size);
 			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
+				if(doc.data().words.includes(query.toLowerCase())) {
+					displayOnSite(doc);
+				}
 			})
 		})
-		
-		descSearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		employerSearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		categorySearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
+		nextQuery.className = 'btn btn-light disabled';
+		prevQuery.className = 'btn btn-light disabled';
+		return;
 	}
 }
 
-function nextPage() {
-	return db.collection('jobs').orderBy('posted').startAfter(firstdoc).limit(limit);
-}
-
-function prevPage() {
+function nextPage(query=null) {
 	return db.collection('jobs').orderBy('posted').endBefore(lastdoc).limitToLast(limit);
 }
 
+function prevPage(query=null) {
+	return db.collection('jobs').orderBy('posted').startAfter(firstdoc).limit(limit);
+}
+
 prevQuery.addEventListener('click', (event) => {
-	console.log("PREV QUERY" + firstdoc.data().title);
 	listjobs(query, null, firstdoc);
 	pageNo--;
+	console.log(pageNo);
 	if(pageNo <= 0) {
 		prevQuery.className = 'btn btn-light disabled';
 	}
@@ -310,6 +300,7 @@ nextQuery.addEventListener('click', (event) => {
 		prevQuery.className = 'btn btn-light'
 	}
 	pageNo++;
+	console.log(pageNo);
 })
 
 listjobs(query);

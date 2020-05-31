@@ -47,6 +47,7 @@ btn.addEventListener('click', (event) => {
 	const city = cityIn.value;
 	const state = stateIn.value;
 	const posted = Date.now();
+	const words = (title + " " + employer + " " + description + " " + category + " " + city + " " + state).toLowerCase();
 
 	if (employer.trim() && title.trim() && link.trim()){
 		const job = {
@@ -57,7 +58,8 @@ btn.addEventListener('click', (event) => {
 			category,
 			city,
 			state,
-			posted
+			posted,
+			words
 		};
 		storeJobs(job);
 		//setTimeout(() => {  console.log("World!"); }, 2000);
@@ -107,7 +109,8 @@ function storeJobs(job) {
 		    category: job.category,
 		    city: job.city,
 		    state: job.state,
-		    posted: job.posted
+		    posted: job.posted,
+		    words: job.words
 		})
 		.then(function() {
 		    console.log("Document successfully written!");

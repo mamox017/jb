@@ -79,19 +79,6 @@ function displayOnSite(doc) {
 
 }
 
-searchQuery.addEventListener("keyup", function(event) {
-  // Number 13 is the "Enter" key on the keyboard
-  if (event.keyCode === 13) {
-  	event.preventDefault();
-  	console.log("ENTER");
-    // Cancel the default action, if needed
-    
-    // Trigger the button element with a click
-    console.log("CLICKING");
-    searchBar.click();
-  }
-});
-
 searchBar.addEventListener('click', (event) => {
 	query = searchQuery.value;
 	console.log(query);
@@ -101,7 +88,6 @@ searchBar.addEventListener('click', (event) => {
 
 //normalize pixels
 all.addEventListener('click', (event) => {
-	console.log("All");
 	herotext.textContent = "All Jobs";
 	mast.className = "masthead10 text-white text-center";
 	query = null;
@@ -109,160 +95,143 @@ all.addEventListener('click', (event) => {
 })
 
 arts.addEventListener('click', (event) => {
-	console.log("Arts");
 	herotext.textContent = "Arts";
 	mast.className = "masthead2 text-white text-center";
 	query = "Arts";
-	listjobs(query);
+	categorySearch(query);
 })
 
 business.addEventListener('click', (event) => {
-	console.log("Business");
 	herotext.textContent = "Business";
 	mast.className = "masthead3 text-white text-center";
 	query = "Business";
-	listjobs(query);
+	categorySearch(query);
 })
 
 education.addEventListener('click', (event) => {
-	console.log("Education");
 	herotext.textContent = "Education";
 	mast.className = "masthead4 text-white text-center";
 	query = "Education";
-	listjobs(query);
+	categorySearch(query);
 })
 
 engineering.addEventListener('click', (event) => {
-	console.log("Engineering");
 	herotext.textContent = "Engineering";
 	mast.className = "masthead5 text-white text-center";
 	query = "Engineering";
-	listjobs(query);
+	categorySearch(query);
 })
 
 medical.addEventListener('click', (event) => {
-	console.log("Medical");
 	herotext.textContent = "Medical";
 	mast.className = "masthead6 text-white text-center";
 	query = "Medical";
-	listjobs(query);
+	categorySearch(query);
 })
 
 serviceIndustry.addEventListener('click', (event) => {
-	console.log("Service Industry");
 	herotext.textContent = "Service Industry";
 	mast.className = "masthead8 text-white text-center";
 	query = "Service Industry";
-	listjobs(query);
+	categorySearch(query);
 })
 
 tech.addEventListener('click', (event) => {
-	console.log("Tech");
 	herotext.textContent = "Tech";
 	mast.className = "masthead7 text-white text-center";
 	query = "Tech";
-	listjobs(query);
+	categorySearch(query);
 })
 
 other.addEventListener('click', (event) => {
-	console.log("Other");
 	herotext.textContent = "Other Jobs";
 	mast.className = "masthead9 text-white text-center";
 	query = "Other";
-	listjobs(query);
+	categorySearch(query);
 })
+
+function categorySearch(category) {
+	jobs.innerHTML = "";
+	categoryCollection = db.collection('jobs').where("category", "==", category);
+	categoryCollection.get().then((snapshot) => {
+		snapshot.docs.reverse().forEach(doc => {
+			displayOnSite(doc);
+		})
+	})
+	nextQuery.className = 'btn btn-light disabled';
+	prevQuery.className = 'btn btn-light disabled';
+}
 
 
 function listjobs(query, startAft=null, endBefore=null) {
-	jobs.innerHTML = "";
-	console.log(query);
 	var collection = db.collection('jobs');
-	i = 0;
-	if(firstdoc && lastdoc) {
-		console.log("firstdoc: " + firstdoc.data().title);
-		console.log("lastdoc: " + lastdoc.data().title);
-	}
+	firstInSnapshot = true;
 	if(query == null) {
 		if(startAft == null && endBefore == null) {
-			firstPage = true;
-			console.log("first page!");
-			collection = db.collection('jobs').orderBy("posted").limit(limit);
+			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
 		} else if (startAft != null) {
-			console.log("next page!");
 			collection = nextPage();
 		} else if (endBefore != null) {
-			console.log("prev page!");
 			collection = prevPage();
 		}
 		collection.get().then((snapshot) => {
-		snapshot.docs.reverse().forEach(doc => {
-			if(i == 0) {
-				firstdoc = doc;
+			if(snapshot.size == 0) {
+				if (pageNo == 0) {
+					prevQuery.className = 'btn btn-light disabled';
+				} else {
+					console.log(snapshot.size);
+					const endoflist = document.createElement('small');
+					endoflist.className = 'text-center';
+					endoflist.textContent = "No more jobs to display";
+					jobs.appendChild(endoflist);
+				}
+			} else {
+				jobs.innerHTML = "";
+				snapshot.docs.reverse().forEach(doc => {
+					if(firstInSnapshot) {
+						firstdoc = doc;
+						firstInSnapshot = false;
+					}
+					lastdoc = doc;
+					displayOnSite(doc);
+				})
 			}
-			displayOnSite(doc);
-			lastdoc = doc;
-			i++;
+			if (snapshot.size < 5 && startAft != null) {
+				nextQuery.className = 'btn btn-light disabled';
+			} else if (nextQuery.className == 'btn btn-light disabled') {
+				nextQuery.className = 'btn btn-light';
+			}
 		})
-		if (i < 5) {
-			nextQuery.className = 'btn btn-light disabled';
-		} else if (nextQuery.className == 'btn btn-light disabled') {
-			nextQuery.className = 'btn btn-light';
-		}
-	})
 	} else {
-		collection = db.collection('jobs').where("title", "==", query);
-		descSearch = db.collection('jobs').where("description", "==", query);
-		employerSearch = db.collection('jobs').where("employer", "==", query);
-		categorySearch = db.collection('jobs').where("category", "==", query);
-		
-		collection.get().then((snapshot) => {
+		jobs.innerHTML = "";
+		inn
+		bagOfWords = db.collection('jobs').orderBy("posted");
+		bagOfWords.get().then((snapshot) => {
+			console.log(snapshot.size);
 			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
+				if(doc.data().words.includes(query.toLowerCase())) {
+					displayOnSite(doc);
+				}
 			})
 		})
-		
-		descSearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		employerSearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
-		
-		categorySearch.get().then((snapshot) => {
-			snapshot.docs.reverse().forEach(doc => {
-				displayOnSite(doc);
-			})
-		})
+		nextQuery.className = 'btn btn-light disabled';
+		prevQuery.className = 'btn btn-light disabled';
+		return;
 	}
-
-	//failed search
-	/*if(jobs.innerHTML == "") {
-		const formGrp = document.createElement('div');
-	    formGrp.className = 'form-group';
-	    const success = document.createElement('div');
-	    success.className = 'alert alert-danger';
-	    success.textContent = "No results match your search";
-	    formGrp.appendChild(success);
-		jobs.appendChild(formGrp);
-	}*/
 }
 
-function nextPage() {
-	return db.collection('jobs').orderBy('posted').startAfter(firstdoc).limit(limit);
-}
-
-function prevPage() {
+function nextPage(query=null) {
 	return db.collection('jobs').orderBy('posted').endBefore(lastdoc).limitToLast(limit);
+}
+
+function prevPage(query=null) {
+	return db.collection('jobs').orderBy('posted').startAfter(firstdoc).limit(limit);
 }
 
 prevQuery.addEventListener('click', (event) => {
 	listjobs(query, null, firstdoc);
 	pageNo--;
+	console.log(pageNo);
 	if(pageNo <= 0) {
 		prevQuery.className = 'btn btn-light disabled';
 	}
@@ -274,6 +243,7 @@ nextQuery.addEventListener('click', (event) => {
 		prevQuery.className = 'btn btn-light'
 	}
 	pageNo++;
+	console.log(pageNo);
 })
 
 listjobs(query);
