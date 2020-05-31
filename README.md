@@ -38,7 +38,7 @@ The login is handled by the Firebase authentication library.
 
 ## Profile
 <p align="center">
-  <img src="https://i.imgur.com/UDnOf9y.png">
+  <img src="https://i.imgur.com/RBkcH5s.png">
 </p>
 The profile information is populated by the user's attributes pulled from the active session user object.
 
@@ -50,7 +50,7 @@ Job listings are available to users to browse and mark whether or not they are a
 
 ## Applied
 <p align="center">
-  <img src="https://i.imgur.com/9hReicN.png">
+  <img src="https://i.imgur.com/wSHJfe8.png">
 </p>
 This is the applied tab.  Users applied jobs are saved here.
 
