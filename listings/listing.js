@@ -79,6 +79,12 @@ function displayOnSite(doc) {
 
 }
 
+searchForm.addEventListener('keyup', (event) => {
+	if(event.keyCode == 13) {
+		searchBar.click();
+	}
+})
+
 searchBar.addEventListener('click', (event) => {
 	query = searchQuery.value;
 	console.log(query);
