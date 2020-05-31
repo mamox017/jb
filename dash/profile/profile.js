@@ -39,7 +39,6 @@ logOutBtn.addEventListener('click', (event) => {
 });
 
 function displayInfo() {
-
 	disName.textContent = "Display Name: " + currUser.displayName;
   	disEmail.textContent = "Email: " + currUser.email;
   	if(currUser.photoURL == null){
@@ -84,20 +83,22 @@ updateInfo.addEventListener('click', (event) => {
 		disPhone.parentNode.replaceChild(phonefield, disPhone);
 
 	} else if (updateInfo.textContent == "Save Changes") {
-		if (box.value != "") {
-			console.log(box.value);
-			currUser.updateProfile({
-				displayName: box.value,
-			});
-		}
-		if (phonebox.value != "") {
-			console.log(phonebox.value);
-			console.log(currUser.phoneNumber);
-			currUser.updateProfile({
-				photoURL: phonebox.value
-			});
-		}
-		updateInfo.className = 'btn btn-success disabled';
-		updateInfo.textContent = "Changes Saved ✔";
+		updateProfileForm();
 	}
 });
+
+function updateProfileForm() {
+	if (box.value != "") {
+		currUser.updateProfile({
+			displayName: box.value,
+		});
+	}
+	if (phonebox.value != "") {
+		currUser.updateProfile({
+			photoURL: phonebox.value
+		});
+	}
+	updateInfo.className = 'btn btn-success disabled';
+	updateInfo.textContent = "Changes Saved ✔";
+	return;
+}
