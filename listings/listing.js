@@ -204,7 +204,6 @@ function listjobs(query, startAft=null, endBefore=null) {
 		})
 	} else {
 		jobs.innerHTML = "";
-		inn
 		bagOfWords = db.collection('jobs').orderBy("posted");
 		bagOfWords.get().then((snapshot) => {
 			console.log(snapshot.size);
