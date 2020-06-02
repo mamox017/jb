@@ -1,5 +1,5 @@
 # The Job Board
-The Job Board is made primarily uses JavaScript and utilizes the Bootstrap framework for it's front-end design.  It uses the Firebase Firestore database technology in order to store information about jobs and users.  The Job Board also has authentication and authorization which is implemented through Firebase's auth library.
+The Job Board is made primarily with JavaScript and utilizes the Bootstrap framework for it's front-end design.  It uses the Firebase Firestore database technology in order to store information about jobs and users.  The Job Board also has authentication and authorization which is implemented through Firebase's auth library.
 
 <p align="center">
   <img src="https://i.imgur.com/d1mVjsI.png">
