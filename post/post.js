@@ -80,16 +80,20 @@ function storeJobs(job) {
 		    posted: job.posted,
 		    words: job.words
 		})
-		.then(function() {
-		    console.log("Document successfully written!");
-		    const formGrp = document.createElement('div');
-		    formGrp.className = 'form-group';
-		    const success = document.createElement('div');
-		    success.className = 'alert alert-success';
-		    success.textContent = "Job successfully posted!";
-		    formGrp.appendChild(success);
-		    form.append(formGrp);
-		    form.reset();
+		.then(function(docRef) {
+			db.collection("jobs").doc(docRef.id).update({
+				id: docRef.id
+			}).then(function() {
+				console.log("Document id: " + docRef.id + " successfully written!");
+				const formGrp = document.createElement('div');
+			    formGrp.className = 'form-group';
+			    const success = document.createElement('div');
+			    success.className = 'alert alert-success';
+			    success.textContent = "Job successfully posted!";
+			    formGrp.appendChild(success);
+			    form.append(formGrp);
+			    form.reset();
+			})
 		})
 		.catch(function(error) {
 		    console.error("Error writing document: ", error);
