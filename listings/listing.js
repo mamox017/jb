@@ -21,10 +21,15 @@ var query;
 
 const categories = ["Arts", "Business", "Education", "Engineering", "Medical", "Service Industry", "Tech", "Other"];
 
+var len;
 var pageNo = 0;
 var limit = 5;
+var currentResults = 0;
+var lowerBound = 0;
+var upperBound = 5;
 var firstdoc;
 var lastdoc;
+var currentlyQuerying = false;
 
 function displayOnSite(doc) {
 	const div = document.createElement('div');
@@ -173,6 +178,7 @@ function listjobs(query, startAft=null, endBefore=null) {
 	var collection = db.collection('jobs');
 	firstInSnapshot = true;
 	if(query == null) {
+		currentlyQuerying = false;
 		if(startAft == null && endBefore == null) {
 			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
 		} else if (startAft != null) {
@@ -209,18 +215,45 @@ function listjobs(query, startAft=null, endBefore=null) {
 			}
 		})
 	} else {
+		console.log("Query index: " + lowerBound);
+		console.log("Query limit: " + upperBound);
+		
+		currentlyQuerying = true;
+		len = 0;
 		jobs.innerHTML = "";
 		bagOfWords = db.collection('jobs').orderBy("posted");
 		bagOfWords.get().then((snapshot) => {
-			console.log(snapshot.size);
+			currentResults = 0;
 			snapshot.docs.reverse().forEach(doc => {
-				if(doc.data().words.includes(query.toLowerCase())) {
-					displayOnSite(doc);
+				if (doc.data().words.includes(query.toLowerCase())) {
+					len += 1;
 				}
 			})
+			console.log("Query size: " + len);
+			snapshot.docs.reverse().forEach(doc => {
+				if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
+					displayOnSite(doc);
+					console.log(doc.data().title);
+					console.log(currentResults)
+					currentResults++;
+				} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
+					currentResults++;
+				}
+			})
+
+			if(lowerBound > 0){
+				prevQuery.className = 'btn btn-light';
+			} else {
+				prevQuery.className = 'btn btn-light disabled';
+			}
+			if(upperBound >= len - 1) {
+				nextQuery.className = 'btn btn-light disabled';
+			} else {
+				nextQuery.className = 'btn btn-light';
+			}
 		})
-		nextQuery.className = 'btn btn-light disabled';
-		prevQuery.className = 'btn btn-light disabled';
+
+		
 		return;
 	}
 }
@@ -234,6 +267,11 @@ function prevPage(query=null) {
 }
 
 prevQuery.addEventListener('click', (event) => {
+	if (currentlyQuerying) {
+		currentResults -= 5;
+		lowerBound -= 5;
+		upperBound -= 5;
+	}
 	listjobs(query, null, firstdoc);
 	pageNo--;
 	console.log(pageNo);
@@ -243,6 +281,10 @@ prevQuery.addEventListener('click', (event) => {
 })
 
 nextQuery.addEventListener('click', (event) => {
+	if (currentlyQuerying) {
+		lowerBound += 5;
+		upperBound += 5;
+	}
 	listjobs(query, lastdoc, null);
 	if (prevQuery.className == 'btn btn-light disabled') {
 		prevQuery.className = 'btn btn-light'
