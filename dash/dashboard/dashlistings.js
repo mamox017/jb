@@ -148,6 +148,12 @@ function displayOnSite(doc) {
 	jobs.appendChild(divider);
 }
 
+
+function reset() {
+	lowerBound = 0;
+	upperBound = 5;
+}
+
 searchForm.addEventListener('keyup', (event) => {
 	if(event.keyCode == 13) {
 		searchBar.click();
@@ -155,6 +161,7 @@ searchForm.addEventListener('keyup', (event) => {
 })
 
 searchBar.addEventListener('click', (event) => {
+	reset();
 	query = searchQuery.value;
 	console.log(query);
 	listjobs(query);
@@ -163,66 +170,70 @@ searchBar.addEventListener('click', (event) => {
 
 //normalize pixels
 all.addEventListener('click', (event) => {
+	reset();
 	query = null;
 	listjobs(query);
 })
 
 arts.addEventListener('click', (event) => {
+	reset();
 	query = "Arts";
 	categorySearch(query);
 })
 
 business.addEventListener('click', (event) => {
+	reset();
 	query = "Business";
 	categorySearch(query);
 })
 
 education.addEventListener('click', (event) => {
+	reset();
 	query = "Education";
 	categorySearch(query);
 })
 
 engineering.addEventListener('click', (event) => {
+	reset();
 	query = "Engineering";
 	categorySearch(query);
 })
 
 medical.addEventListener('click', (event) => {
+	reset();
 	query = "Medical";
 	categorySearch(query);
 })
 
 serviceIndustry.addEventListener('click', (event) => {
+	reset();
 	query = "Service Industry";
 	categorySearch(query);
 })
 
 tech.addEventListener('click', (event) => {
+	reset();
 	query = "Tech";
 	categorySearch(query);
 })
 
 other.addEventListener('click', (event) => {
+	reset();
 	query = "Other";
 	categorySearch(query);
 })
 
 function categorySearch(category) {
-	jobs.innerHTML = "";
-	categoryCollection = db.collection('jobs').where("category", "==", category);
-	categoryCollection.get().then((snapshot) => {
-		snapshot.docs.reverse().forEach(doc => {
-			displayOnSite(doc);
-		})
-	})
-	nextQuery.className = 'btn btn-light disabled';
-	prevQuery.className = 'btn btn-light disabled';
+	bagOfWords = db.collection('jobs').where("category", "==", category).orderBy("posted");
+	listjobs(category, null, null, bagOfWords);
 }
 
-function listjobs(query, startAft=null, endBefore=null) {
+
+function listjobs(query, startAft=null, endBefore=null, category) {
 	var collection = db.collection('jobs');
 	firstInSnapshot = true;
 	if(query == null) {
+		currentlyQuerying = false;
 		if(startAft == null && endBefore == null) {
 			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
 		} else if (startAft != null) {
@@ -265,37 +276,72 @@ function listjobs(query, startAft=null, endBefore=null) {
 		currentlyQuerying = true;
 		len = 0;
 		jobs.innerHTML = "";
-		bagOfWords = db.collection('jobs').orderBy("posted");
-		bagOfWords.get().then((snapshot) => {
-			currentResults = 0;
-			snapshot.docs.reverse().forEach(doc => {
-				if (doc.data().words.includes(query.toLowerCase())) {
-					len += 1;
+		if(category == null) {
+			bagOfWords = db.collection('jobs').orderBy("posted");
+			bagOfWords.get().then((snapshot) => {
+				currentResults = 0;
+				snapshot.docs.reverse().forEach(doc => {
+					if (doc.data().words.includes(query.toLowerCase())) {
+						len += 1;
+					}
+				})
+				console.log("Query size: " + len);
+				snapshot.docs.reverse().forEach(doc => {
+					if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
+						displayOnSite(doc);
+						console.log(doc.data().title);
+						console.log(currentResults)
+						currentResults++;
+					} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
+						currentResults++;
+					}
+				})
+
+				if(lowerBound > 0){
+					prevQuery.className = 'btn btn-light';
+				} else {
+					prevQuery.className = 'btn btn-light disabled';
+				}
+				if(upperBound >= len - 1) {
+					nextQuery.className = 'btn btn-light disabled';
+				} else {
+					nextQuery.className = 'btn btn-light';
 				}
 			})
-			console.log("Query size: " + len);
-			snapshot.docs.reverse().forEach(doc => {
-				if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
-					displayOnSite(doc);
-					console.log(doc.data().title);
-					console.log(currentResults)
-					currentResults++;
-				} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
-					currentResults++;
+		} else {
+			category.get().then((snapshot) => {
+				currentResults = 0;
+				snapshot.docs.reverse().forEach(doc => {
+					if (doc.data().words.includes(query.toLowerCase())) {
+						len += 1;
+					}
+				})
+				console.log("Query size: " + len);
+				snapshot.docs.reverse().forEach(doc => {
+					if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
+						displayOnSite(doc);
+						console.log(doc.data().title);
+						console.log(currentResults)
+						currentResults++;
+					} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
+						currentResults++;
+					}
+				})
+
+				if(lowerBound > 0){
+					prevQuery.className = 'btn btn-light';
+				} else {
+					prevQuery.className = 'btn btn-light disabled';
+				}
+				if(upperBound >= len - 1) {
+					nextQuery.className = 'btn btn-light disabled';
+				} else {
+					nextQuery.className = 'btn btn-light';
 				}
 			})
 
-			if(lowerBound > 0){
-				prevQuery.className = 'btn btn-light';
-			} else {
-				prevQuery.className = 'btn btn-light disabled';
-			}
-			if(upperBound >= len - 1) {
-				nextQuery.className = 'btn btn-light disabled';
-			} else {
-				nextQuery.className = 'btn btn-light';
-			}
-		})
+		}
+
 
 		
 		return;

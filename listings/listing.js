@@ -84,6 +84,11 @@ function displayOnSite(doc) {
 
 }
 
+function reset() {
+	lowerBound = 0;
+	upperBound = 5;
+}
+
 searchForm.addEventListener('keyup', (event) => {
 	if(event.keyCode == 13) {
 		searchBar.click();
@@ -91,6 +96,7 @@ searchForm.addEventListener('keyup', (event) => {
 })
 
 searchBar.addEventListener('click', (event) => {
+	reset();
 	query = searchQuery.value;
 	console.log(query);
 	listjobs(query);
@@ -99,6 +105,7 @@ searchBar.addEventListener('click', (event) => {
 
 //normalize pixels
 all.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "All Jobs";
 	mast.className = "masthead10 text-white text-center";
 	query = null;
@@ -106,6 +113,7 @@ all.addEventListener('click', (event) => {
 })
 
 arts.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Arts";
 	mast.className = "masthead2 text-white text-center";
 	query = "Arts";
@@ -113,6 +121,7 @@ arts.addEventListener('click', (event) => {
 })
 
 business.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Business";
 	mast.className = "masthead3 text-white text-center";
 	query = "Business";
@@ -120,6 +129,7 @@ business.addEventListener('click', (event) => {
 })
 
 education.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Education";
 	mast.className = "masthead4 text-white text-center";
 	query = "Education";
@@ -127,6 +137,7 @@ education.addEventListener('click', (event) => {
 })
 
 engineering.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Engineering";
 	mast.className = "masthead5 text-white text-center";
 	query = "Engineering";
@@ -134,6 +145,7 @@ engineering.addEventListener('click', (event) => {
 })
 
 medical.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Medical";
 	mast.className = "masthead6 text-white text-center";
 	query = "Medical";
@@ -141,6 +153,7 @@ medical.addEventListener('click', (event) => {
 })
 
 serviceIndustry.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Service Industry";
 	mast.className = "masthead8 text-white text-center";
 	query = "Service Industry";
@@ -148,6 +161,7 @@ serviceIndustry.addEventListener('click', (event) => {
 })
 
 tech.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Tech";
 	mast.className = "masthead7 text-white text-center";
 	query = "Tech";
@@ -155,26 +169,22 @@ tech.addEventListener('click', (event) => {
 })
 
 other.addEventListener('click', (event) => {
+	reset();
 	herotext.textContent = "Other Jobs";
 	mast.className = "masthead9 text-white text-center";
 	query = "Other";
 	categorySearch(query);
 })
 
+
+
 function categorySearch(category) {
-	jobs.innerHTML = "";
-	categoryCollection = db.collection('jobs').where("category", "==", category);
-	categoryCollection.get().then((snapshot) => {
-		snapshot.docs.reverse().forEach(doc => {
-			displayOnSite(doc);
-		})
-	})
-	nextQuery.className = 'btn btn-light disabled';
-	prevQuery.className = 'btn btn-light disabled';
+	bagOfWords = db.collection('jobs').where("category", "==", category).orderBy("posted");
+	listjobs(category, null, null, bagOfWords);
 }
 
 
-function listjobs(query, startAft=null, endBefore=null) {
+function listjobs(query, startAft=null, endBefore=null, category) {
 	var collection = db.collection('jobs');
 	firstInSnapshot = true;
 	if(query == null) {
@@ -221,37 +231,72 @@ function listjobs(query, startAft=null, endBefore=null) {
 		currentlyQuerying = true;
 		len = 0;
 		jobs.innerHTML = "";
-		bagOfWords = db.collection('jobs').orderBy("posted");
-		bagOfWords.get().then((snapshot) => {
-			currentResults = 0;
-			snapshot.docs.reverse().forEach(doc => {
-				if (doc.data().words.includes(query.toLowerCase())) {
-					len += 1;
+		if(category == null) {
+			bagOfWords = db.collection('jobs').orderBy("posted");
+			bagOfWords.get().then((snapshot) => {
+				currentResults = 0;
+				snapshot.docs.reverse().forEach(doc => {
+					if (doc.data().words.includes(query.toLowerCase())) {
+						len += 1;
+					}
+				})
+				console.log("Query size: " + len);
+				snapshot.docs.reverse().forEach(doc => {
+					if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
+						displayOnSite(doc);
+						console.log(doc.data().title);
+						console.log(currentResults)
+						currentResults++;
+					} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
+						currentResults++;
+					}
+				})
+
+				if(lowerBound > 0){
+					prevQuery.className = 'btn btn-light';
+				} else {
+					prevQuery.className = 'btn btn-light disabled';
+				}
+				if(upperBound >= len - 1) {
+					nextQuery.className = 'btn btn-light disabled';
+				} else {
+					nextQuery.className = 'btn btn-light';
 				}
 			})
-			console.log("Query size: " + len);
-			snapshot.docs.reverse().forEach(doc => {
-				if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
-					displayOnSite(doc);
-					console.log(doc.data().title);
-					console.log(currentResults)
-					currentResults++;
-				} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
-					currentResults++;
+		} else {
+			category.get().then((snapshot) => {
+				currentResults = 0;
+				snapshot.docs.reverse().forEach(doc => {
+					if (doc.data().words.includes(query.toLowerCase())) {
+						len += 1;
+					}
+				})
+				console.log("Query size: " + len);
+				snapshot.docs.reverse().forEach(doc => {
+					if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
+						displayOnSite(doc);
+						console.log(doc.data().title);
+						console.log(currentResults)
+						currentResults++;
+					} else if (doc.data().words.includes(query.toLowerCase()) && currentResults < upperBound) {
+						currentResults++;
+					}
+				})
+
+				if(lowerBound > 0){
+					prevQuery.className = 'btn btn-light';
+				} else {
+					prevQuery.className = 'btn btn-light disabled';
+				}
+				if(upperBound >= len - 1) {
+					nextQuery.className = 'btn btn-light disabled';
+				} else {
+					nextQuery.className = 'btn btn-light';
 				}
 			})
 
-			if(lowerBound > 0){
-				prevQuery.className = 'btn btn-light';
-			} else {
-				prevQuery.className = 'btn btn-light disabled';
-			}
-			if(upperBound >= len - 1) {
-				nextQuery.className = 'btn btn-light disabled';
-			} else {
-				nextQuery.className = 'btn btn-light';
-			}
-		})
+		}
+
 
 		
 		return;
