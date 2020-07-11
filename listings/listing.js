@@ -7,6 +7,7 @@ const searchBar = document.getElementById('search');
 var searchQuery = document.getElementById('query');
 const nextQuery = document.getElementById('next');
 const prevQuery = document.getElementById('prev');
+const numResults = document.getElementById('num');
 
 const all = document.getElementById('All');
 const arts = document.getElementById('Arts');
@@ -178,6 +179,7 @@ function listjobs(query, startAft=null, endBefore=null) {
 	var collection = db.collection('jobs');
 	firstInSnapshot = true;
 	if(query == null) {
+		numResults.style.display = "none";
 		currentlyQuerying = false;
 		if(startAft == null && endBefore == null) {
 			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
@@ -229,7 +231,8 @@ function listjobs(query, startAft=null, endBefore=null) {
 					len += 1;
 				}
 			})
-			console.log("Query size: " + len);
+			numResults.textContent = "There are " + len + " posting(s) matching your criteria.";
+			numResults.style.display = "block";
 			snapshot.docs.reverse().forEach(doc => {
 				if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
 					displayOnSite(doc);
