@@ -7,6 +7,7 @@ const searchBar = document.getElementById('search');
 var searchQuery = document.getElementById('query');
 const nextQuery = document.getElementById('next');
 const prevQuery = document.getElementById('prev');
+const numResults = document.getElementById('num');
 
 const all = document.getElementById('All');
 const arts = document.getElementById('Arts');
@@ -85,6 +86,7 @@ function displayOnSite(doc) {
 }
 
 function reset() {
+	numResults.textContent = "loading...";
 	lowerBound = 0;
 	upperBound = 5;
 }
@@ -188,6 +190,7 @@ function listjobs(query, startAft=null, endBefore=null, category) {
 	var collection = db.collection('jobs');
 	firstInSnapshot = true;
 	if(query == null) {
+		numResults.style.display = "none";
 		currentlyQuerying = false;
 		if(startAft == null && endBefore == null) {
 			collection = db.collection('jobs').orderBy("posted").limitToLast(limit);
@@ -240,6 +243,8 @@ function listjobs(query, startAft=null, endBefore=null, category) {
 						len += 1;
 					}
 				})
+				numResults.textContent = "There are " + len + " posting(s) matching your criteria.";
+				numResults.style.display = "block";
 				console.log("Query size: " + len);
 				snapshot.docs.reverse().forEach(doc => {
 					if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
@@ -264,6 +269,7 @@ function listjobs(query, startAft=null, endBefore=null, category) {
 				}
 			})
 		} else {
+
 			category.get().then((snapshot) => {
 				currentResults = 0;
 				snapshot.docs.reverse().forEach(doc => {
@@ -271,6 +277,8 @@ function listjobs(query, startAft=null, endBefore=null, category) {
 						len += 1;
 					}
 				})
+				numResults.textContent = "There are " + len + " posting(s) in category: " + query;
+				numResults.style.display = "block";
 				console.log("Query size: " + len);
 				snapshot.docs.reverse().forEach(doc => {
 					if(doc.data().words.includes(query.toLowerCase()) && currentResults >= lowerBound && currentResults < upperBound) {
