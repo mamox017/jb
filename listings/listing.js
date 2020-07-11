@@ -49,7 +49,13 @@ function displayOnSite(doc) {
 
 	const divChildLoc = document.createElement('p');
 	divChildLoc.className = 'card-title';
-	divChildLoc.textContent = "Location: " + doc.data().city + ", " + doc.data().state;
+	if(doc.data().state == ''){
+		divChildLoc.textContent = "Location: " + doc.data().city;
+	} else if (doc.data().city == '' || doc.data().city == null) {
+		divChildLoc.textContent = "Location: " + doc.data().state;
+	} else {
+		divChildLoc.textContent = "Location: " + doc.data().city + ", " + doc.data().state;
+	}
 
 	const divChildText = document.createElement('p');
 	divChildText.className = 'card-text';
