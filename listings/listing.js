@@ -187,7 +187,7 @@ other.addEventListener('click', (event) => {
 
 
 function categorySearch(category) {
-	bagOfWords = db.collection('jobs').where("category", "==", category).orderBy("posted");
+	bagOfWords = db.collection('jobs').where("category", "==", category).orderBy("posted").limit(100);
 	listjobs(category, null, null, bagOfWords);
 }
 
@@ -241,7 +241,7 @@ function listjobs(query, startAft=null, endBefore=null, category) {
 		len = 0;
 		jobs.innerHTML = "";
 		if(category == null) {
-			bagOfWords = db.collection('jobs').orderBy("posted");
+			bagOfWords = db.collection('jobs').orderBy("posted").limit(100);
 			bagOfWords.get().then((snapshot) => {
 				currentResults = 0;
 				snapshot.docs.reverse().forEach(doc => {
@@ -275,7 +275,6 @@ function listjobs(query, startAft=null, endBefore=null, category) {
 				}
 			})
 		} else {
-
 			category.get().then((snapshot) => {
 				currentResults = 0;
 				snapshot.docs.reverse().forEach(doc => {
