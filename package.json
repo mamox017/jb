@@ -34,7 +34,7 @@
         "@okta/okta-signin-widget": "^4.0.2",
         "bootstrap": "4.3.1",
         "express": "^4.17.1",
-        "express-openid-connect": "^1.0.2",
+        "express-openid-connect": "^2.7.2",
         "jquery": "^3.5.1",
         "simple-line-icons": "^2.4.1"
     },
